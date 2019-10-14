@@ -1,0 +1,33 @@
+{
+  "name": "babel-plugin-log-linenumbers",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": "https://github.com/funbers-telecom/babel-plugin-log-linenumbers.git",
+  "author": "Rasmus Höglund <rhoglund@gmail.com>",
+  "license": "MIT",
+  "babel": {
+    "retainLines": true,
+    "presets": [
+      "module:metro-react-native-babel-preset"
+    ],
+    "plugins": [
+      [
+        "./index.js",
+        {
+          "segments": 1,
+          "template": "{{function}}:{{line}}"
+        }
+      ]
+    ]
+  },
+  "scripts": {
+    "test": "babel ./tests/index.js --out-dir ./tests/out"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/runtime": "^7.6.3",
+    "metro-react-native-babel-preset": "^0.56.0"
+  },
+  "dependencies": {}
+}
