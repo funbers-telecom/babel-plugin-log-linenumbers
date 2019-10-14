@@ -25,9 +25,10 @@ const loggers = {
   }
 };
 
-function shouldInjectLinNumberAtPath(path) {
+function shouldInjectLinNumberAtPath(path, enabledLoggers) {
   const callee = path.node.callee;
   return callee.object
+         && (!enabledLoggers || enabledLoggers.indexOf(callee.object.name) >= 0)
          && loggers[callee.object.name]
          && loggers[callee.object.name][callee.property.name];
 }
@@ -53,7 +54,7 @@ module.exports = () => {
       CallExpression(path, state) {
         const opts = state.opts;
 
-        if (shouldInjectLinNumberAtPath(path)) {
+        if (shouldInjectLinNumberAtPath(path, opts.enabledLoggers)) {
 
           // get file name
           let file = state.file.opts.filename;

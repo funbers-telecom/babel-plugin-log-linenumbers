@@ -1,3 +1,8 @@
+const log = {
+  d(msg) { /* do nothing */ }
+};
+
+
 const anonArrowFunc = () => {
   return () => console.debug('anon arrow func');
 };
