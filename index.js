@@ -35,14 +35,19 @@ function shouldInjectLinNumberAtPath(path, enabledLoggers) {
 
 function getParentFunctionName(path) {
 
+  // async function will stop at _callee and _callee$, so drop those to traverse further, also drop added $ to keep names clean
+  const filterName = (name) => (name && !name.startsWith('_callee')) && name.replace('$', '');
+
   // recursively walk up the tree until we find either a named function or an assignment expression with a name
+  //@formatter:off
   const recursivelyFindClosestParentFunctionNameOrAssignedVariableName = (path) => {
     return (!path && 'anon') ||
-           (path.node.id && path.node.id.name) ||
-           (path.parent.type === 'AssignmentExpression' && path.parent.left.property && path.parent.left.property.name) ||
-           (path.parent.type === 'VariableDeclarator' && path.parent.id && path.parent.id.name) ||
+           (path.node.id                                                             && filterName(path.node.id.name)) ||
+           (path.parent.type === 'AssignmentExpression' && path.parent.left.property && filterName(path.parent.left.property.name)) ||
+           (path.parent.type === 'VariableDeclarator'   && path.parent.id            && filterName(path.parent.id.name)) ||
            recursivelyFindClosestParentFunctionNameOrAssignedVariableName(path.getFunctionParent());
   };
+  //@formatter:on
 
   return recursivelyFindClosestParentFunctionNameOrAssignedVariableName(path.getFunctionParent());
 }

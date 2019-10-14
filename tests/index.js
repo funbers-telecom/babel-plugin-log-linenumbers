@@ -19,6 +19,10 @@ let a = (function () {
   }
 })();
 
+const wrapper = (f) => {
+  return f()
+};
+
 class App {
   constructor() {
     log.d('hej');
@@ -38,6 +42,10 @@ class App {
           console.log('anonFunc in func');
       }
   }
+
+  wrapped = () => wrapper(async () => {
+    console.log("I'm wrapped!")
+  })
 }
 
 export default new App();

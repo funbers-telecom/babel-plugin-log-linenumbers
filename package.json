@@ -14,7 +14,7 @@
       [
         "./index.js",
         {
-          "enabledLoggers": ["log"],
+          "enabledLoggers": ["console","log"],
           "segments": 1,
           "template": "{{function}}:{{line}}"
         }
